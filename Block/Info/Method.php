@@ -89,7 +89,7 @@ class Method extends \Magento\Payment\Block\Info
                 }
 
                 // Filter empty values
-                $transactionData = array_filter($transactionData, 'strlen');
+                $transactionData = array_filter($transactionData, fn($value) => !empty($value));
 
                 $result = [];
                 foreach ($this->transactionFields as $description => $list) {
