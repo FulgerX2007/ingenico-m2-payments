@@ -17,7 +17,7 @@ class Methods extends ArraySerialized
     {
         if (!is_array($this->getValue())) {
             $value = $this->getValue();
-            $this->setValue(empty($value) ? false : json_decode($value, true));
+            $this->setValue(empty($value) ? false : json_decode($value, true, 512, JSON_THROW_ON_ERROR));
         }
     }
 
@@ -39,7 +39,7 @@ class Methods extends ArraySerialized
                     unset($methods[$key]);
                 };
             }
-            $this->setValue(json_encode($methods));
+            $this->setValue(json_encode($methods, JSON_THROW_ON_ERROR));
         }
 
         parent::beforeSave();

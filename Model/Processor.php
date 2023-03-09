@@ -22,80 +22,35 @@ use Magento\Sales\Api\CreditmemoRepositoryInterface;
 
 class Processor
 {
-    /**
-     * @var OrderFactory
-     */
-    private $orderFactory;
+    private \Magento\Sales\Model\OrderFactory $orderFactory;
 
-    /**
-     * @var InvoiceRepositoryInterface
-     */
-    private $invoiceRepository;
+    private \Magento\Sales\Api\InvoiceRepositoryInterface $invoiceRepository;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private \Magento\Sales\Api\OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var CreditmemoManagementInterface
-     */
-    private $creditmemoManagement;
+    private \Magento\Sales\Api\CreditmemoManagementInterface $creditmemoManagement;
 
-    /**
-     * @var CreditmemoFactory
-     */
-    private $creditmemoFactory;
+    private \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory;
 
-    /**
-     * @var InvoiceService
-     */
-    private $invoiceService;
+    private \Magento\Sales\Model\Service\InvoiceService $invoiceService;
 
-    /**
-     * @var InvoiceSender
-     */
-    private $invoiceSender;
+    private \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender;
 
-    /**
-     * @var CreditmemoSender
-     */
-    private $creditmemoSender;
+    private \Magento\Sales\Model\Order\Email\Sender\CreditmemoSender $creditmemoSender;
 
-    /**
-     * @var TransactionBuilder
-     */
-    private $transactionBuilder;
+    private TransactionBuilder $transactionBuilder;
 
-    /**
-     * @var CreditmemoRepositoryInterface
-     */
-    private $creditmemoRepository;
+    private \Magento\Sales\Api\CreditmemoRepositoryInterface $creditmemoRepository;
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private \Magento\Framework\Registry $registry;
 
-    /**
-     * @var TransactionFactory
-     */
-    private $transactionFactory;
+    private \Magento\Framework\DB\TransactionFactory $transactionFactory;
 
-    /**
-     * @var SalesData
-     */
-    private $salesData;
+    private SalesData $salesData;
 
-    /**
-     * @var IngenicoConfig
-     */
-    private $config;
+    private IngenicoConfig $config;
 
-    /**
-     * @var IngenicoConnector
-     */
-    private $connector;
+    private ?IngenicoConnector $connector = null;
 
     /**
      * Constructor
@@ -376,7 +331,7 @@ class Processor
             $order = $this->orderRepository->get($order->getId());
             $this->_addOrderMessage($order, $message);
         } catch (LocalizedException $e) {
-            $this->connector->log(sprintf('%s::%s %s', __CLASS__, __METHOD__, $e->getMessage()));
+            $this->connector->log(sprintf('%s::%s %s', self::class, __METHOD__, $e->getMessage()));
         } catch (\Exception $e) {
             $this->connector->log($e->getMessage(), 'crit');
         }
@@ -414,7 +369,7 @@ class Processor
     {
         $order->addStatusToHistory(
             $order->getStatus(),
-            $message ? $message : $fallbackMsg
+            $message ?: $fallbackMsg
         );
     }
 }

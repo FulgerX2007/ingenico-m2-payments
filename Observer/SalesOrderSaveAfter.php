@@ -10,20 +10,11 @@ use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 
 class SalesOrderSaveAfter implements ObserverInterface
 {
-    /**
-     * @var OrderFactory
-     */
-    private $orderFactory;
+    private \Magento\Sales\Model\OrderFactory $orderFactory;
 
-    /**
-     * @var OrderRepository
-     */
-    private $orderRepository;
+    private \Magento\Sales\Model\OrderRepository $orderRepository;
 
-    /**
-     * @var CollectionFactory
-     */
-    private $salesOrderCollectionFactory;
+    private \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $salesOrderCollectionFactory;
 
     /**
      * Constructor

@@ -19,20 +19,11 @@ class Banks extends AbstractBlock implements BlockInterface
      */
     private $options = [];
 
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+    private \Magento\Store\Model\StoreManagerInterface $storeManager;
 
-    /**
-     * @var Config
-     */
-    private $config;
+    private \Ingenico\Payment\Model\Config $config;
 
-    /**
-     * @var BanksSource
-     */
-    private $banksSource;
+    private BanksSource $banksSource;
 
     public function __construct(
         Context $context,

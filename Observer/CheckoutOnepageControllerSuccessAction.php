@@ -9,35 +9,17 @@ use Magento\Sales\Model\OrderRepository;
 
 class CheckoutOnepageControllerSuccessAction implements ObserverInterface
 {
-    /**
-     * @var \Ingenico\Payment\Model\Connector
-     */
-    private $connector;
+    private \Ingenico\Payment\Model\Connector $connector;
 
-    /**
-     * @var \Ingenico\Payment\Model\Config
-     */
-    private $cnf;
+    private \Ingenico\Payment\Model\Config $cnf;
 
-    /**
-     * @var OrderFactory
-     */
-    private $orderFactory;
+    private \Magento\Sales\Model\OrderFactory $orderFactory;
 
-    /**
-     * @var OrderRepository
-     */
-    private $orderRepository;
+    private \Magento\Sales\Model\OrderRepository $orderRepository;
 
-    /**
-     * @var \Magento\Checkout\Helper\Data
-     */
-    private $checkoutHelper;
+    private \Magento\Checkout\Helper\Data $checkoutHelper;
 
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    private $customerSession;
+    private \Magento\Customer\Model\Session $customerSession;
 
     /**
      * Constructor
@@ -67,6 +49,7 @@ class CheckoutOnepageControllerSuccessAction implements ObserverInterface
 
     public function execute(Observer $observer)
     {
+        $order = null;
         $orderId = $this->checkoutHelper->getCheckout()->getMultishippingMainOrderId();
         if ($orderId > 0) {
             try {

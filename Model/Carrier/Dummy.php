@@ -35,15 +35,9 @@ class Dummy extends AbstractCarrier implements CarrierInterface
      */
     protected $_rateMethodFactory;
 
-    /**
-     * @var \Magento\Checkout\Helper\Data
-     */
-    private $checkoutHelper;
+    private \Magento\Checkout\Helper\Data $checkoutHelper;
 
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    private $customerSession;
+    private \Magento\Customer\Model\Session $customerSession;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig

@@ -10,10 +10,7 @@ use Ingenico\Payment\Model\Connector;
 
 class StepOne extends AbstractBlock implements RendererInterface
 {
-    /**
-     * @var Connector
-     */
-    private $connector;
+    private \Ingenico\Payment\Model\Connector $connector;
 
     /**
      * @param Context   $context

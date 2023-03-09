@@ -62,7 +62,7 @@ class Flex extends AbstractMethod
 
         $flex = $additionalData->getFlex();
         if ($flex) {
-            $flex = explode(':', $flex);
+            $flex = explode(':', (string) $flex);
             $additionalData->setFlexPm($flex[0]);
             $additionalData->setFlexBrand($flex[1]);
         }

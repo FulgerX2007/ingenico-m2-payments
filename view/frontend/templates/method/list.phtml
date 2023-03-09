@@ -70,7 +70,7 @@ use IngenicoClient\PaymentMethod\PaymentMethod;
                                             $required = $field->getRequired() ? ' required' : '';
                                             $value = $field->getValue();
                                             $length = $field->getLength();
-                                            $id = implode('-', [$method->getId(), $type, $name, hash('sha256', $value)]);
+                                            $id = implode('-', [$method->getId(), $type, $name, hash('sha256', (string) $value)]);
                                             ?>
                                             <div class="field <?php echo $block->escapeHtmlAttr($name) ?><?php echo $block->escapeHtmlAttr($required); ?>">
                                                 <label class="label" for="<?php echo $block->escapeHtmlAttr($id) ?>"><span><?php echo $block->escapeHtmlAttr($field->getLabel()); ?></span></label>
@@ -138,11 +138,11 @@ use IngenicoClient\PaymentMethod\PaymentMethod;
                                             document.getElementById("open-invoice").submit();
                                         });
                                     </script>
-                                <?php endif; ?>
+<?php endif; ?>
                             </form>
                         </div>
                         <?php // REDIRECT PMs ?>
-                    <?php elseif ($method->isRedirectOnly()): ?>
+<?php elseif ($method->isRedirectOnly()): ?>
                         <a href="<?php echo $method->getIFrameUrl(); ?>">
                             <div class="payment-logo">
                                 <img src="<?php echo $method->getEmbeddedLogo(); ?>" alt="<?php echo $block->escapeHtmlAttr($method->getName()) ?>" width="50" />
@@ -150,7 +150,7 @@ use IngenicoClient\PaymentMethod\PaymentMethod;
                             </div>
                         </a>
                         <?php // IFRAME PMs ?>
-                    <?php else: ?>
+<?php else: ?>
                         <?php if ($method->getSubmethodLogos()){ ?>
                             <div class="payment-logo">
                             <?php foreach ($method->getSubmethodLogos() as $name => $logoSrc){ ?>
@@ -163,7 +163,7 @@ use IngenicoClient\PaymentMethod\PaymentMethod;
                         </div>
                         <iframe data-src="<?php echo $block->escapeHtmlAttr($method->getIFrameUrl()); ?>" title="Payment Form" lazyload="on"></iframe>
                     <?php endif; ?>
-                <?php endforeach; ?>
+<?php endforeach; ?>
                 </li>
             <?php endforeach; ?>
         </ul>

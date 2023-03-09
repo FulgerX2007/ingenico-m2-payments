@@ -15,30 +15,15 @@ use Magento\Sales\Model\Order;
 
 class Data extends AbstractHelper
 {
-    /**
-     * @var IngenicoConfig
-     */
-    private $cnf;
+    private IngenicoConfig $cnf;
 
-    /**
-     * @var Connector
-     */
-    private $connector;
+    private \Ingenico\Payment\Model\Connector $connector;
 
-    /**
-     * @var PaymentHelper
-     */
-    private $paymentHelper;
+    private PaymentHelper $paymentHelper;
 
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+    private \Magento\Store\Model\StoreManagerInterface $storeManager;
 
-    /**
-     * @var EavConfig
-     */
-    private $eavConfig;
+    private EavConfig $eavConfig;
 
     public function __construct(
         Context $context,
@@ -145,7 +130,7 @@ class Data extends AbstractHelper
                         $classWithNs::PAYMENT_METHOD_CODE
                     );
 
-                    if (!defined(get_class($instance) . '::CORE_CODE')) {
+                    if (!defined($instance::class . '::CORE_CODE')) {
                         // It seems Klarna extension conflict. Use di.xml as workaround.
                         continue;
                     }

@@ -36,7 +36,7 @@ class Resume extends \Ingenico\Payment\Controller\Payment\Base
                 'last_order_id' => $order->getId()
             ]);
 
-            $paymentMode = strtolower($this->_cnf->getValue('ingenico_payment_page/presentation/mode'));
+            $paymentMode = strtolower((string) $this->_cnf->getValue('ingenico_payment_page/presentation/mode'));
             $url = $this->_urlBuilder->getUrl('ingenico/payment/'.$paymentMode);
         } catch (\Exception $e) {
             $this->messageManager->addError(__($e->getMessage()));

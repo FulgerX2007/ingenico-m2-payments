@@ -10,15 +10,9 @@ use Magento\Quote\Model\ResourceModel\Quote;
 
 class QuoteProviderByOrderId
 {
-    /**
-     * @var QuoteFactory
-     */
-    private $quoteFactory;
+    private \Magento\Quote\Model\QuoteFactory $quoteFactory;
 
-    /**
-     * @var Quote
-     */
-    private $quoteResourceModel;
+    private \Magento\Quote\Model\ResourceModel\Quote $quoteResourceModel;
 
     /**
      * QuoteProviderByOrderId constructor.

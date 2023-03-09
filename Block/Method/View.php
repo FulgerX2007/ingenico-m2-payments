@@ -18,15 +18,9 @@ class View extends \Magento\Framework\View\Element\Template
     protected $_urlBuilder;
     protected $_registry;
 
-    /**
-     * @var IngenicoConfig
-     */
-    private $cnf;
+    private IngenicoConfig $cnf;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private \Magento\Sales\Api\OrderRepositoryInterface $orderRepository;
 
     /**
      * Constructor

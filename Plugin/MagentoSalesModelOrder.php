@@ -10,25 +10,13 @@ use Ingenico\Payment\Model\Config\Source\Settings\OrderEmail;
 
 class MagentoSalesModelOrder
 {
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+    private \Magento\Store\Model\StoreManagerInterface $storeManager;
 
-    /**
-     * @var Config
-     */
-    private $cnf;
+    private \Ingenico\Payment\Model\Config $cnf;
 
-    /**
-     * @var Connector
-     */
-    private $connector;
+    private \Ingenico\Payment\Model\Connector $connector;
 
-    /**
-     * @var IngenicoHelper
-     */
-    private $ingenicoHelper;
+    private IngenicoHelper $ingenicoHelper;
 
     public function __construct(
         StoreManagerInterface $storeManager,

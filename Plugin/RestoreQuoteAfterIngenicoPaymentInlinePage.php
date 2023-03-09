@@ -12,14 +12,8 @@ use Magento\Framework\App\RequestInterface;
 
 class RestoreQuoteAfterIngenicoPaymentInlinePage extends CheckIsReturnFromPaymentInline
 {
-    /**
-     * @var RequestInterface
-     */
-    private $request;
-    /**
-     * @var UrlInterface
-     */
-    private $url;
+    private \Magento\Framework\App\RequestInterface $request;
+    private \Magento\Framework\UrlInterface $url;
 
     /**
      * RestoreQuoteAfterIngenicoPaymentInlinePage constructor.

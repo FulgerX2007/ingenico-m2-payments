@@ -9,7 +9,7 @@ $code = $block->escapeHtml($block->getMethodCode());
 <div id="payment_form_<?php echo $block->escapeHtml($code); ?>" class="<?php echo $block->escapeHtml($code); ?>">
     <fieldset class="fieldset payment items payment-method <?php echo $block->escapeHtml($code); ?>" id="payment_form_<?php echo $block->escapeHtml($code); ?>" style="display: none;">
         <?php $methods = $block->getFlexMethods(); ?>
-        <?php if (count($methods) === 1): ?>
+        <?php if ((is_countable($methods) ? count($methods) : 0) === 1): ?>
             <?php foreach ($methods as $key => $method): ?>
                 <?php $method = (array) $method; ?>
                 <input type="hidden"

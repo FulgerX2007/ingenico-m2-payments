@@ -8,10 +8,7 @@ use Magento\Framework\Event\Observer;
 
 class AdminhtmlSystemConfigSave implements ObserverInterface
 {
-    /**
-     * @var CacheManager
-     */
-    private $cacheManager;
+    private CacheManager $cacheManager;
 
     /**
      * Constructor.
