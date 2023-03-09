@@ -17,50 +17,23 @@ use Magento\Customer\Model\Session as CustomerSession;
 
 class MultishippingCheckoutSubmitAllAfter implements ObserverInterface
 {
-    /**
-     * @var Connector
-     */
-    private $connector;
+    private \Ingenico\Payment\Model\Connector $connector;
 
-    /**
-     * @var IngenicoConfig
-     */
-    private $cnf;
+    private IngenicoConfig $cnf;
 
-    /**
-     * @var IngenicoHelper
-     */
-    private $ingenicoHelper;
+    private IngenicoHelper $ingenicoHelper;
 
-    /**
-     * @var OrderFactory
-     */
-    private $orderFactory;
+    private \Magento\Sales\Model\OrderFactory $orderFactory;
 
-    /**
-     * @var OrderRepository
-     */
-    private $orderRepository;
+    private \Magento\Sales\Model\OrderRepository $orderRepository;
 
-    /**
-     * @var QuoteFactory
-     */
-    private $quoteFactory;
+    private \Magento\Quote\Model\QuoteFactory $quoteFactory;
 
-    /**
-     * @var QuoteManagement
-     */
-    private $quoteManagement;
+    private \Magento\Quote\Model\QuoteManagement $quoteManagement;
 
-    /**
-     * @var CheckoutHelper
-     */
-    private $checkoutHelper;
+    private CheckoutHelper $checkoutHelper;
 
-    /**
-     * @var CustomerSession
-     */
-    private $customerSession;
+    private CustomerSession $customerSession;
 
     /**
      * Constructor
@@ -197,7 +170,7 @@ class MultishippingCheckoutSubmitAllAfter implements ObserverInterface
         try {
             $mainOrder = $this->quoteManagement->submit($quote1);
         } catch (\Exception $e) {
-            $this->connector->log(sprintf('%s::%s %s', __CLASS__, __METHOD__, $e->getMessage()), 'crit');
+            $this->connector->log(sprintf('%s::%s %s', self::class, __METHOD__, $e->getMessage()), 'crit');
 
             throw new LocalizedException(__('An error occurred. Please try to place the order again.'));
         }

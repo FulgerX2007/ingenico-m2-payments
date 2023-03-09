@@ -24,20 +24,11 @@ class Method extends \Magento\Payment\Block\Info
         'Customer Name' => ['cn'],
     ];
 
-    /**
-     * @var \Ingenico\Payment\Model\Connector
-     */
-    private $connector;
+    private \Ingenico\Payment\Model\Connector $connector;
 
-    /**
-     * @var \Magento\Framework\App\Request\Http
-     */
-    private $request;
+    private \Magento\Framework\App\Request\Http $request;
 
-    /**
-     * @var \Magento\Sales\Api\OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private \Magento\Sales\Api\OrderRepositoryInterface $orderRepository;
 
     /**
      * @var \Magento\Sales\Api\TransactionRepositoryInterface

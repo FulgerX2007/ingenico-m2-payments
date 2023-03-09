@@ -18,50 +18,23 @@ use Magento\Framework\App\Response\RedirectInterface;
 
 class MultishippingCheckoutControllerSuccessAction implements ObserverInterface
 {
-    /**
-     * @var Connector
-     */
-    private $connector;
+    private \Ingenico\Payment\Model\Connector $connector;
 
-    /**
-     * @var IngenicoConfig
-     */
-    private $cnf;
+    private IngenicoConfig $cnf;
 
-    /**
-     * @var IngenicoHelper
-     */
-    private $ingenicoHelper;
+    private IngenicoHelper $ingenicoHelper;
 
-    /**
-     * @var OrderFactory
-     */
-    private $orderFactory;
+    private \Magento\Sales\Model\OrderFactory $orderFactory;
 
-    /**
-     * @var OrderRepository
-     */
-    private $orderRepository;
+    private \Magento\Sales\Model\OrderRepository $orderRepository;
 
-    /**
-     * @var QuoteRepository
-     */
-    private $quoteRepository;
+    private \Magento\Quote\Model\QuoteRepository $quoteRepository;
 
-    /**
-     * @var CheckoutHelper
-     */
-    private $checkoutHelper;
+    private CheckoutHelper $checkoutHelper;
 
-    /**
-     * @var UrlInterface
-     */
-    private $urlBuilder;
+    private \Magento\Framework\UrlInterface $urlBuilder;
 
-    /**
-     * @var ResponseFactory
-     */
-    private $responseFactory;
+    private \Magento\Framework\App\ResponseFactory $responseFactory;
 
     /**
      * @var ActionFlag

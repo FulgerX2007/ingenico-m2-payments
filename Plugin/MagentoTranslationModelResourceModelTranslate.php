@@ -12,30 +12,18 @@ class MagentoTranslationModelResourceModelTranslate
 {
     const LOCALES = ['en_US', 'fr_FR', 'de_DE', 'nl_NL', 'it_IT', 'es_ES', 'pt_PT'];
 
-    /**
-     * @var Dir
-     */
-    private $moduleDir;
+    private \Magento\Framework\Module\Dir $moduleDir;
 
     /**
      * @var TranslatorFactory
      */
     private $translatorFactory;
 
-    /**
-     * @var PoFileLoader
-     */
-    private $poFileLoader;
+    private \Symfony\Component\Translation\Loader\PoFileLoader $poFileLoader;
 
-    /**
-     * @var File
-     */
-    private $dirReader;
+    private \Magento\Framework\Filesystem\Driver\File $dirReader;
 
-    /**
-     * @var string|null
-     */
-    private $locale;
+    private ?string $locale = null;
 
     /**
      * Constructor.
@@ -97,7 +85,7 @@ class MagentoTranslationModelResourceModelTranslate
             }
 
             $filename = $info['filename'];
-            list($domain, $locale) = explode('.', $filename);
+            [$domain, $locale] = explode('.', $filename);
             $translator->addResource('po', $directory . DIRECTORY_SEPARATOR . $info['basename'], $locale, $domain);
         }
 

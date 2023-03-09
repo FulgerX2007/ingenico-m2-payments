@@ -1,5 +1,5 @@
 {
-    "name": "ingenico/m2-payment",
+    "name": "fulgerx2007/m2-payment",
     "description": "Ingenico ePayments Module",
     "require": {
         "monolog/monolog": "*",
@@ -9,7 +9,7 @@
         "ingenico/ogone-client": "^7.1.0"
     },
     "type": "magento2-module",
-    "version": "2.11.0",
+    "version": "2.12.0",
     "license": [
         "OSL-3.0"
     ],

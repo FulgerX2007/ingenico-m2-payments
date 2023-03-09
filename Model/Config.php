@@ -52,37 +52,19 @@ class Config extends \Magento\Framework\App\Config
     /**
      * @var ConfigCollectionFactory;
      */
-    private $configCollectionFactory;
+    private ConfigCollectionFactory $configCollectionFactory;
 
-    /**
-     * @var ConfigResourceModel
-     */
-    private $configResource;
+    private ConfigResourceModel $configResource;
 
-    /**
-     * @var CacheManager
-     */
-    private $cacheManager;
+    private CacheManager $cacheManager;
 
-    /**
-     * @var OrderStatusCollectionFactory
-     */
-    private $orderStatusCollectionFactory;
+    private OrderStatusCollectionFactory $orderStatusCollectionFactory;
 
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+    private \Magento\Store\Model\StoreManagerInterface $storeManager;
 
-    /**
-     * @var EmailTemplate
-     */
-    private $template;
+    private EmailTemplate $template;
 
-    /**
-     * @var AssetRepository
-     */
-    private $assert;
+    private AssetRepository $assert;
 
     /**
      * Config constructor.
@@ -236,7 +218,7 @@ class Config extends \Magento\Framework\App\Config
             $scopeId
         );
 
-        return explode(',', $logos);
+        return explode(',', (string) $logos);
     }
 
     /**
@@ -252,7 +234,7 @@ class Config extends \Magento\Framework\App\Config
             $scopeId
         );
 
-        return is_string($methods) ? (array) json_decode($methods, true) : $methods;
+        return !is_array($methods) ? (array) json_decode((string) $methods, true, 512, JSON_THROW_ON_ERROR) : $methods;
     }
 
     /**
@@ -852,7 +834,7 @@ class Config extends \Magento\Framework\App\Config
         $baseUrl = $this->getValue(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL, 'default', 0);
 
         // phpcs:ignore
-        return parse_url($baseUrl)['host'];
+        return parse_url((string) $baseUrl)['host'];
     }
 
     public function exportSettingsJson()
@@ -889,7 +871,7 @@ class Config extends \Magento\Framework\App\Config
 
     public function importSettingsJson($json)
     {
-        $data = json_decode($json);
+        $data = json_decode((string) $json, null, 512, JSON_THROW_ON_ERROR);
         if (!$data || !is_array($data)) {
             // phpcs:ignore
             throw new \Exception('File does not contain settings in correct format. Please make sure you selected correct file!');
@@ -940,6 +922,6 @@ class Config extends \Magento\Framework\App\Config
             $scopeId
         );
 
-        return explode(',', $banks);
+        return explode(',', (string) $banks);
     }
 }

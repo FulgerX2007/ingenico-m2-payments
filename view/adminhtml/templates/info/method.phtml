@@ -7,7 +7,7 @@
 <?php echo $block->escapeHtml($block->getMethod()->getTitle()) ?>
 <br />
 <?php $specificInfo = $block->getSpecificInformation(); ?>
-<?php if (count($specificInfo) > 0): ?>
+<?php if ((is_countable($specificInfo) ? count($specificInfo) : 0) > 0): ?>
     <table class="data-table admin__table-secondary">
         <?php foreach ($specificInfo as $_label => $_value):?>
             <tr>

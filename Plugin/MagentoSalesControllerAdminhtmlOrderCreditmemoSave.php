@@ -17,50 +17,23 @@ use Magento\Sales\Model\Order\Payment\Transaction;
 
 class MagentoSalesControllerAdminhtmlOrderCreditmemoSave
 {
-    /**
-     * @var RedirectFactory
-     */
-    private $resultRedirectFactory;
+    private \Magento\Framework\Controller\Result\RedirectFactory $resultRedirectFactory;
 
-    /**
-     * @var ManagerInterface
-     */
-    private $messageManager;
+    private \Magento\Framework\Message\ManagerInterface $messageManager;
 
-    /**
-     * @var CreditmemoLoader
-     */
-    private $creditmemoLoader;
+    private \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader $creditmemoLoader;
 
-    /**
-     * @var CreditmemoRepositoryInterface
-     */
-    private $creditmemoRepository;
+    private \Magento\Sales\Api\CreditmemoRepositoryInterface $creditmemoRepository;
 
-    /**
-     * @var CreditmemoSender
-     */
-    private $creditmemoSender;
+    private \Magento\Sales\Model\Order\Email\Sender\CreditmemoSender $creditmemoSender;
 
-    /**
-     * @var CreditmemoManagementInterface
-     */
-    private $creditmemoManagement;
+    private \Magento\Sales\Api\CreditmemoManagementInterface $creditmemoManagement;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private \Magento\Sales\Api\OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var Connector
-     */
-    private $connector;
+    private \Ingenico\Payment\Model\Connector $connector;
 
-    /**
-     * @var IngenicoHelper
-     */
-    private $ingenicoHelper;
+    private IngenicoHelper $ingenicoHelper;
 
     public function __construct(
         RedirectFactory $resultRedirectFactory,

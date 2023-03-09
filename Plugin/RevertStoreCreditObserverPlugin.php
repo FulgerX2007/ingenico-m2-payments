@@ -16,7 +16,7 @@ class RevertStoreCreditObserverPlugin
         $order = $observer->getEvent()->getOrder();
 
         if ($observer->getEvent()->getName() === 'restore_quote'
-            && strpos($order->getPayment()->getMethod(), 'ingenico_') === 0
+            && str_starts_with((string) $order->getPayment()->getMethod(), 'ingenico_')
         ) {
             // Don't execute original observer:
             return $subject;

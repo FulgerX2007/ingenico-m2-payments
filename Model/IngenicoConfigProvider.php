@@ -17,45 +17,21 @@ class IngenicoConfigProvider implements ConfigProviderInterface
 {
     const PARAM_NAME_TITLE_KEY = 'title';
 
-    /**
-     * @var Connector
-     */
-    private $connector;
+    private \Ingenico\Payment\Model\Connector $connector;
 
-    /**
-     * @var IngenicoConfig
-     */
-    private $cnf;
+    private IngenicoConfig $cnf;
 
-    /**
-     * @var IngenicoHelper
-     */
-    private $ingenicoHelper;
+    private IngenicoHelper $ingenicoHelper;
 
-    /**
-     * @var AssetRepository
-     */
-    private $assetRepo;
+    private AssetRepository $assetRepo;
 
-    /**
-     * @var UrlInterface
-     */
-    private $urlBuilder;
+    private \Magento\Framework\UrlInterface $urlBuilder;
 
-    /**
-     * @var CustomerSession
-     */
-    private $customerSession;
+    private CustomerSession $customerSession;
 
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+    private \Magento\Store\Model\StoreManagerInterface $storeManager;
 
-    /**
-     * @var Banks
-     */
-    private $banks;
+    private \Ingenico\Payment\Block\Ideal\Banks $banks;
 
     /**
      * Constructor
@@ -243,9 +219,9 @@ class IngenicoConfigProvider implements ConfigProviderInterface
                     self::PARAM_NAME_TITLE_KEY => (string) __(
                         '%1 ends with %2, expires on %3/%4',
                         $brand,
-                        substr($savedCard->getCardno(), -4, 4),
-                        substr($savedCard->getEd(), 0, 2),
-                        substr($savedCard->getEd(), 2, 4)
+                        substr((string) $savedCard->getCardno(), -4, 4),
+                        substr((string) $savedCard->getEd(), 0, 2),
+                        substr((string) $savedCard->getEd(), 2, 4)
                     ),
                     'brand' => $savedCard->getBrand(),
                     'imgSrc' => $savedCard->getEmbeddedLogo(),
@@ -287,7 +263,7 @@ class IngenicoConfigProvider implements ConfigProviderInterface
 
         /** @var MethodInterface $paymentMethod */
         foreach ($activeM2PaymentObjects as $paymentMethod) {
-            if (!defined(get_class($paymentMethod) . '::CORE_CODE')) {
+            if (!defined($paymentMethod::class . '::CORE_CODE')) {
                 continue;
             }
 

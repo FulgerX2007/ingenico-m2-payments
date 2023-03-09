@@ -18,7 +18,7 @@ class Openinvoice extends Base
             $logger->err(sprintf('%s %s', __METHOD__, $e->getMessage()));
 
             // Suppress: Unable to use %s as Open Invoice method. Use %s::initiateRedirectPayment() instead of.
-            if (strpos($e->getMessage(), 'initiateRedirectPayment()') !== false) {
+            if (str_contains($e->getMessage(), 'initiateRedirectPayment()')) {
                 return $redirect;
             }
 

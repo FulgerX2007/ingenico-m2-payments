@@ -96,60 +96,27 @@ class Connector extends AbstractConnector implements ConnectorInterface
     const PARAM_NAME_EMAIL_TEMPLATE = 'email_template';
     const PARAM_NAME_OPEN_INVOICE_FIELDS = 'open_invoice_fields';
 
-    /**
-     * @var IngenicoLogger
-     */
-    private $logger;
+    private IngenicoLogger $logger;
 
-    /**
-     * @var Config
-     */
-    private $cnf;
+    private \Ingenico\Payment\Model\Config $cnf;
 
-    /**
-     * @var IngenicoCoreLibrary
-     */
-    private $coreLibrary;
+    private \IngenicoClient\IngenicoCoreLibrary $coreLibrary;
 
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+    private \Magento\Store\Model\StoreManagerInterface $storeManager;
 
-    /**
-     * @var ResolverInterface
-     */
-    private $localeResolver;
+    private \Magento\Framework\Locale\ResolverInterface $localeResolver;
 
-    /**
-     * @var CustomerRepositoryInterface
-     */
-    private $customerRepository;
+    private \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository;
 
-    /**
-     * @var UrlInterface
-     */
-    private $urlBuilder;
+    private \Magento\Framework\UrlInterface $urlBuilder;
 
-    /**
-     * @var BackendUrlInterface
-     */
-    private $backendUrlBuilder;
+    private BackendUrlInterface $backendUrlBuilder;
 
-    /**
-     * @var CheckoutSession
-     */
-    private $checkoutSession;
+    private CheckoutSession $checkoutSession;
 
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    private $customerSession;
+    private CustomerSession $customerSession;
 
-    /**
-     * @var Processor
-     */
-    private $processor;
+    private \Ingenico\Payment\Model\Processor $processor;
 
     /**
      * @var TransactionFactory
@@ -181,100 +148,46 @@ class Connector extends AbstractConnector implements ConnectorInterface
      */
     private $reminderCollectionFactory;
 
-    /**
-     * @var TransportBuilder
-     */
-    private $transportBuilder;
+    private \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder;
 
-    /**
-     * @var StateInterface
-     */
-    private $inlineTranslation;
+    private \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation;
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private \Magento\Framework\Registry $registry;
 
-    /**
-     * @var ImageHelper
-     */
-    private $productImageHelper;
+    private ImageHelper $productImageHelper;
 
     /**
      * @var ProductRepositoryInterfaceFactory
      */
     private $productRepositoryFactory;
 
-    /**
-     * @var PriceHelper
-     */
-    private $priceHelper;
+    private PriceHelper $priceHelper;
 
-    /**
-     * @var AppEmulation
-     */
-    private $appEmulation;
+    private AppEmulation $appEmulation;
 
-    /**
-     * @var ManagerInterface
-     */
-    private $messageManager;
+    private \Magento\Framework\Message\ManagerInterface $messageManager;
 
-    /**
-     * @var OrderCollectionFactory
-     */
-    private $orderCollectionFactory;
+    private OrderCollectionFactory $orderCollectionFactory;
 
-    /**
-     * @var \Magento\Sales\Model\OrderFactory
-     */
-    private $orderFactory;
+    private \Magento\Sales\Model\OrderFactory $orderFactory;
 
-    /**
-     * @var \Magento\Quote\Model\QuoteRepository
-     */
-    private $quoteRepository;
+    private \Magento\Quote\Model\QuoteRepository $quoteRepository;
 
-    /**
-     * @var \Magento\Framework\App\Request\Http
-     */
-    private $request;
+    private \Magento\Framework\App\Request\Http $request;
 
-    /**
-     * @var \Magento\Framework\App\ProductMetadata
-     */
-    private $productMetadata;
+    private \Magento\Framework\App\ProductMetadata $productMetadata;
 
-    /**
-     * @var \Magento\Framework\Filesystem\Driver\File
-     */
-    private $fileDriver;
+    private FileDriver $fileDriver;
 
-    /**
-     * @var \Magento\Framework\Serialize\Serializer\Json
-     */
-    private $json;
+    private \Magento\Framework\Serialize\Serializer\Json $json;
 
-    /**
-     * @var ResponseFactory
-     */
-    private $responseFactory;
+    private \Magento\Framework\App\ResponseFactory $responseFactory;
 
-    /**
-     * @var ActionFlag
-     */
-    private $actionFlag;
+    private \Magento\Framework\App\ActionFlag $actionFlag;
 
-    /**
-     * @var RedirectInterface
-     */
-    private $redirect;
+    private \Magento\Framework\App\Response\RedirectInterface $redirect;
 
-    /**
-     * @var UserCollectionFactory
-     */
-    private $userCollectionFactory;
+    private UserCollectionFactory $userCollectionFactory;
 
     /**
      * @var mixed
@@ -285,10 +198,7 @@ class Connector extends AbstractConnector implements ConnectorInterface
      * @var mixed
      */
     private $customerId = null;
-    /**
-     * @var QuoteProviderByOrderId
-     */
-    private $quoteProviderByOrderId;
+    private \Ingenico\Payment\Model\QuoteProviderByOrderId $quoteProviderByOrderId;
 
     public function __construct(
         IngenicoLogger $logger,
@@ -409,7 +319,7 @@ class Connector extends AbstractConnector implements ConnectorInterface
         return sprintf(
             'MG%sV%s',
             str_replace('.', '', $this->productMetadata->getVersion()),
-            str_replace('.', '', $composerData['version'])
+            str_replace('.', '', (string) $composerData['version'])
         );
     }
 
@@ -571,18 +481,13 @@ class Connector extends AbstractConnector implements ConnectorInterface
      */
     public function buildPlatformUrl($type, array $params = [])
     {
-        switch ($type) {
-            case $this->coreLibrary::CONTROLLER_TYPE_PAYMENT:
-                return $this->getUrl('ingenico/payment/redirect', ['_query' => $params]);
-            case $this->coreLibrary::CONTROLLER_TYPE_SUCCESS:
-                return $this->getUrl('ingenico/payment/result', ['_query' => $params]);
-            case $this->coreLibrary::CONTROLLER_TYPE_ORDER_SUCCESS:
-                return $this->getUrl('checkout/onepage/success');
-            case $this->coreLibrary::CONTROLLER_TYPE_ORDER_CANCELLED:
-                return $this->getUrl(self::PARAM_NAME_CHECKOUT_CART);
-            default:
-                throw new LocalizedException(__('Unknown page type.'));
-        }
+        return match ($type) {
+            $this->coreLibrary::CONTROLLER_TYPE_PAYMENT => $this->getUrl('ingenico/payment/redirect', ['_query' => $params]),
+            $this->coreLibrary::CONTROLLER_TYPE_SUCCESS => $this->getUrl('ingenico/payment/result', ['_query' => $params]),
+            $this->coreLibrary::CONTROLLER_TYPE_ORDER_SUCCESS => $this->getUrl('checkout/onepage/success'),
+            $this->coreLibrary::CONTROLLER_TYPE_ORDER_CANCELLED => $this->getUrl(self::PARAM_NAME_CHECKOUT_CART),
+            default => throw new LocalizedException(__('Unknown page type.')),
+        };
     }
 
     /**
@@ -813,21 +718,12 @@ class Connector extends AbstractConnector implements ConnectorInterface
         } elseif ($order->getStatus() === $capturedStatus) {
             $status = $this->coreLibrary::STATUS_CAPTURED;
         } else {
-            switch ($order->getState()) {
-                case $order::STATE_NEW:
-                case $order::STATE_PENDING_PAYMENT:
-                    $status = $this->coreLibrary::STATUS_PENDING;
-                    break;
-                case $order::STATE_CANCELED:
-                    $status = $this->coreLibrary::STATUS_CANCELLED;
-                    break;
-                case $order::STATE_CLOSED:
-                    $status = $this->coreLibrary::STATUS_REFUNDED;
-                    break;
-                default:
-                    $status = $this->coreLibrary::STATUS_UNKNOWN;
-                    break;
-            }
+            $status = match ($order->getState()) {
+                $order::STATE_NEW, $order::STATE_PENDING_PAYMENT => $this->coreLibrary::STATUS_PENDING,
+                $order::STATE_CANCELED => $this->coreLibrary::STATUS_CANCELLED,
+                $order::STATE_CLOSED => $this->coreLibrary::STATUS_REFUNDED,
+                default => $this->coreLibrary::STATUS_UNKNOWN,
+            };
         }
 
         $billingAddress = $order->getBillingAddress();
@@ -994,7 +890,7 @@ class Connector extends AbstractConnector implements ConnectorInterface
             OrderField::BILLING_COUNTRY => $billingAddress->getCountryId(),
             OrderField::BILLING_COUNTRY_CODE => $billingAddress->getCountryId(),
             OrderField::BILLING_ADDRESS1 => $billingAddress->getStreet()[0],
-            OrderField::BILLING_ADDRESS2 => count($billingAddress->getStreet()) > 1 ? $billingAddress->getStreet()[1] : null,
+            OrderField::BILLING_ADDRESS2 => count((array) $billingAddress->getStreet()) > 1 ? $billingAddress->getStreet()[1] : null,
             OrderField::BILLING_ADDRESS3 => null,
             OrderField::BILLING_STREET_NUMBER => null,
             OrderField::BILLING_CITY => $billingAddress->getCity(),
@@ -1010,7 +906,7 @@ class Connector extends AbstractConnector implements ConnectorInterface
             OrderField::SHIPPING_COUNTRY => $shippingAddress->getCountryId(),
             OrderField::SHIPPING_COUNTRY_CODE => $shippingAddress->getCountryId(),
             OrderField::SHIPPING_ADDRESS1 => $shippingAddress->getStreet()[0],
-            OrderField::SHIPPING_ADDRESS2 => count($shippingAddress->getStreet()) > 1 ? $shippingAddress->getStreet()[1] : null,
+            OrderField::SHIPPING_ADDRESS2 => count((array) $shippingAddress->getStreet()) > 1 ? $shippingAddress->getStreet()[1] : null,
             OrderField::SHIPPING_ADDRESS3 => null,
             OrderField::SHIPPING_STREET_NUMBER => null,
             OrderField::SHIPPING_CITY => $shippingAddress->getCity(),
@@ -1215,7 +1111,7 @@ class Connector extends AbstractConnector implements ConnectorInterface
             OrderField::SHIPPING_COUNTRY => $shippingAddress->getCountryId(),
             OrderField::SHIPPING_COUNTRY_CODE => $shippingAddress->getCountryId(),
             OrderField::SHIPPING_ADDRESS1 => $shippingAddress->getStreet()[0],
-            OrderField::SHIPPING_ADDRESS2 => count($shippingAddress->getStreet()) > 1 ? $shippingAddress->getStreet()[1] : null,
+            OrderField::SHIPPING_ADDRESS2 => (is_countable($shippingAddress->getStreet()) ? count($shippingAddress->getStreet()) : 0) > 1 ? $shippingAddress->getStreet()[1] : null,
             OrderField::SHIPPING_ADDRESS3 => null,
             OrderField::SHIPPING_CITY => $shippingAddress->getCity(),
             OrderField::SHIPPING_STATE => $shippingAddress->getRegionId(),
@@ -1879,7 +1775,7 @@ class Connector extends AbstractConnector implements ConnectorInterface
     {
         $trxData = $data->getData();
         $trxData['order_id'] = $orderId;
-        $trxData['transaction_data'] = json_encode($data->getData());
+        $trxData['transaction_data'] = json_encode($data->getData(), JSON_THROW_ON_ERROR);
 
         $collection = $this->transactionCollectionFactory
             ->create()
@@ -2389,7 +2285,7 @@ class Connector extends AbstractConnector implements ConnectorInterface
         $orders = $this->orderCollectionFactory->create()
                                                ->addFieldToFilter('state', ['in' => [Order::STATE_PENDING_PAYMENT]]);
 
-        if (count($existingReminderOrderIds) > 0) {
+        if ((is_countable($existingReminderOrderIds) ? count($existingReminderOrderIds) : 0) > 0) {
             $orders->addFieldToFilter('increment_id', ['nin' => $existingReminderOrderIds]);
         }
 
@@ -2693,7 +2589,7 @@ class Connector extends AbstractConnector implements ConnectorInterface
     public function getSessionValue($key)
     {
         $fields = $this->getSessionValues();
-        return isset($fields[$key]) ? $fields[$key] : null;
+        return $fields[$key] ?? null;
     }
 
     /**
@@ -2731,13 +2627,10 @@ class Connector extends AbstractConnector implements ConnectorInterface
      */
     public function getOrderFieldLabel($field)
     {
-        // @todo Set labels for fields
-        switch ($field) {
-            case OrderField::CUSTOMER_DOB:
-                return __('Date of Birth');
-            default:
-                return __(ucfirst(str_replace('_', ' ', $field)));
-        }
+        return match ($field) {
+            OrderField::CUSTOMER_DOB => __('Date of Birth'),
+            default => __(ucfirst(str_replace('_', ' ', $field))),
+        };
     }
 
     /**
@@ -2771,7 +2664,7 @@ class Connector extends AbstractConnector implements ConnectorInterface
             return null;
         }
         if (is_array($str) || is_object($str)) {
-            $str = json_encode($str);
+            $str = json_encode($str, JSON_THROW_ON_ERROR);
         }
 
         $this->logger->$mode($str);

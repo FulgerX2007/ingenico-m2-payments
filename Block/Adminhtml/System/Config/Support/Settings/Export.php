@@ -13,15 +13,9 @@ use Magento\Framework\UrlInterface;
  */
 class Export extends Field
 {
-    /**
-     * @var UrlInterface
-     */
-    private $urlBuilder;
+    private \Magento\Framework\UrlInterface $urlBuilder;
 
-    /**
-     * @var BackendUrlInterface
-     */
-    private $backendUrlBuilder;
+    private BackendUrlInterface $backendUrlBuilder;
 
     public function __construct(
         Context $context,

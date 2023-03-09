@@ -13,15 +13,9 @@ use Magento\Framework\Data\Form\Element\AbstractElement;
  */
 class Webhook extends Field
 {
-    /**
-     * @var UrlInterface
-     */
-    private $urlBuilder;
+    private \Magento\Framework\UrlInterface $urlBuilder;
 
-    /**
-     * @var RequestInterface
-     */
-    private $request;
+    private \Magento\Framework\App\RequestInterface $request;
 
     /**
      * @param Context      $context

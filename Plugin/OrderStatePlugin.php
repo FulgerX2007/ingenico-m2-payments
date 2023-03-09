@@ -9,20 +9,11 @@ use Ingenico\Payment\Model\Config\Source\Settings\OrderEmail;
 
 class OrderStatePlugin
 {
-    /**
-     * @var OrderNotifier
-     */
-    private $orderNotifier;
+    private \Magento\Sales\Model\OrderNotifier $orderNotifier;
 
-    /**
-     * @var Config
-     */
-    private $cnf;
+    private \Ingenico\Payment\Model\Config $cnf;
 
-    /**
-     * @var IngenicoHelper
-     */
-    private $ingenicoHelper;
+    private IngenicoHelper $ingenicoHelper;
 
     /**
      * Constructor.

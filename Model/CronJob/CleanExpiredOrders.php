@@ -19,45 +19,21 @@ use Ingenico\Payment\Model\Connector;
  */
 class CleanExpiredOrders
 {
-    /**
-     * @var StoresConfig
-     */
-    private $storesConfig;
+    private \Magento\Store\Model\StoresConfig $storesConfig;
 
-    /**
-     * @var IngenicoConfig
-     */
-    private $ingenicoConfig;
+    private IngenicoConfig $ingenicoConfig;
 
-    /**
-     * @var IngenicoLogger
-     */
-    private $logger;
+    private IngenicoLogger $logger;
 
-    /**
-     * @var Connector
-     */
-    private $connector;
+    private \Ingenico\Payment\Model\Connector $connector;
 
-    /**
-     * @var OrderCollectionFactory
-     */
-    private $orderCollectionFactory;
+    private OrderCollectionFactory $orderCollectionFactory;
 
-    /**
-     * @var PaymentCollectionFactory
-     */
-    private $paymentCollectionFactory;
+    private PaymentCollectionFactory $paymentCollectionFactory;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private \Magento\Sales\Api\OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var OrderManagementInterface
-     */
-    private $orderManagement;
+    private \Magento\Sales\Api\OrderManagementInterface $orderManagement;
 
     /**
      * @param StoresConfig $storesConfig
@@ -174,7 +150,7 @@ class CleanExpiredOrders
             // Check orders
             foreach ($orders->getAllIds() as $entityId) {
                 $payment = $this->getOrderPayment($entityId);
-                if ($payment && (strpos($payment->getMethod(), 'ingenico') !== false)) {
+                if ($payment && (str_contains($payment->getMethod(), 'ingenico'))) {
                     continue;
                 }
 
