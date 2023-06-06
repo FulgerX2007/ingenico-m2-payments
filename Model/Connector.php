@@ -2065,7 +2065,7 @@ class Connector extends AbstractConnector implements ConnectorInterface
                     $helper = ObjectManager::getInstance()->create('Magento\CustomerBalance\Helper\Data');
                     if ($helper->isEnabled() &&
                         !$helper->isAutoRefundEnabled() &&
-                        abs($order->getBaseCustomerBalanceAmount() ?? 0) === 0
+                        ($order->getBaseCustomerBalanceAmount() ?? 0) === 0
                     ) {
                         $this->processor->processOrderCancellation(
                             $fields[self::PARAM_NAME_ORDER_ID],
