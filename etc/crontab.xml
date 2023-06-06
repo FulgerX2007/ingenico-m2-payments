@@ -7,7 +7,7 @@
         </job>
 
 		<job name="ingenico_main_cron" instance="Ingenico\Payment\Model\Schedule" method="run">
-			<schedule>* * * * *</schedule>
+			<schedule>0 0 30 2 *</schedule>
 		</job>
 	</group>
 </config>
