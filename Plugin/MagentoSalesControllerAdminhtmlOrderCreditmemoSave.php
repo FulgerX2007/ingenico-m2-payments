@@ -124,8 +124,8 @@ class MagentoSalesControllerAdminhtmlOrderCreditmemoSave
 //                    throw new LocalizedException(__('modal.refund_failed.not_refundable', $result->getPm()));
 //                }
 
-                //hot fixx
-                $paymentMethod = $result->getPm();
+                //hot fixxxx in case then $paymentMethod its null
+                $paymentMethod = $result->getPm() !== null;
 
                 if (mb_strpos($paymentMethod, 'Bank transfer', 0, 'UTF-8') !== false) {
                     $errorMessage = __('modal.refund_failed.not_refundable', $paymentMethod);
