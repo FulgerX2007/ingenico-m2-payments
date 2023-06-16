@@ -119,8 +119,17 @@ class MagentoSalesControllerAdminhtmlOrderCreditmemoSave
                     $payId,
                     null
                 );
-                if (mb_strpos($result->getPm(), 'Bank transfer', null, 'UTF-8') !== false) {
-                    throw new LocalizedException(__('modal.refund_failed.not_refundable', $result->getPm()));
+
+//                if (mb_strpos($result->getPm(), 'Bank transfer', null, 'UTF-8') !== false) {
+//                    throw new LocalizedException(__('modal.refund_failed.not_refundable', $result->getPm()));
+//                }
+
+                //hot fixx
+                $paymentMethod = $result->getPm();
+
+                if (mb_strpos($paymentMethod, 'Bank transfer', 0, 'UTF-8') !== false) {
+                    $errorMessage = __('modal.refund_failed.not_refundable', $paymentMethod);
+                    throw new LocalizedException($errorMessage);
                 }
 
                 $this->connector->setOrderId($order->getIncrementId());
